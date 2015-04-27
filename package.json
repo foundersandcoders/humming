@@ -1,0 +1,33 @@
+{
+  "name": "marble-run",
+  "version": "1.0.0",
+  "description": "hapi plugin to generate crud routes for all models in a folder",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/foundersandcoders/marble-run.git"
+  },
+  "keywords": [
+    "crud",
+    "hapi",
+    "routes",
+    "model",
+    "generate"
+  ],
+  "author": "William Fisher, Besart Shyti",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/foundersandcoders/marble-run/issues"
+  },
+  "homepage": "https://github.com/foundersandcoders/marble-run",
+  "devDependencies": {
+    "faucet": "0.0.1",
+    "istanbul": "^0.3.13",
+    "jshint": "^2.7.0",
+    "pre-commit": "^1.0.6",
+    "tape": "^4.0.0"
+  }
+}
