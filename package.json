@@ -31,9 +31,11 @@
   "homepage": "https://github.com/foundersandcoders/marble-run",
   "devDependencies": {
     "faucet": "0.0.1",
+    "hapi": "^8.4.0",
     "istanbul": "^0.3.13",
     "jshint": "^2.7.0",
     "pre-commit": "^1.0.6",
+    "russian-doll": "^1.0.2",
     "tape": "^4.0.0"
   },
   "dependencies": {
