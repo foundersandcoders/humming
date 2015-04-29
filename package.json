@@ -4,7 +4,9 @@
   "description": "hapi plugin to generate crud routes for all models in a folder",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "tape ./test/*.test.js | faucet",
+    "jshint": "jshint -c ./.jshintrc --exclude-path .gitignore .",
+    "coverage": "istanbul cover tape ./test/*.test.js && istanbul check-coverage --statements 95 --functions 95 --lines 95 --branches 95"
   },
   "repository": {
     "type": "git",
@@ -16,6 +18,10 @@
     "routes",
     "model",
     "generate"
+  ],
+  "pre-commit": [
+    "jshint",
+    "coverage"
   ],
   "author": "William Fisher, Besart Shyti",
   "license": "MIT",
@@ -29,5 +35,12 @@
     "jshint": "^2.7.0",
     "pre-commit": "^1.0.6",
     "tape": "^4.0.0"
+  },
+  "dependencies": {
+    "asbestos": "^1.0.0",
+    "d-bap": "^1.0.0",
+    "haybale": "^1.0.1",
+    "rhiz": "^1.0.0",
+    "torf": "^1.0.6"
   }
 }

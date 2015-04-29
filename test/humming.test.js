@@ -1,7 +1,6 @@
 "use strict";
 
 var test = require("tape");
-var humming = require("..");
 var hapi = require("hapi");
 var createAdapter = require("russian-doll");
 
