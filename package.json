@@ -1,5 +1,5 @@
 {
-  "name": "marble-run",
+  "name": "humming",
   "version": "1.0.0",
   "description": "hapi plugin to generate crud routes for all models in a folder",
   "main": "index.js",
