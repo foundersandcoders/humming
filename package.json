@@ -1,6 +1,6 @@
 {
   "name": "humming",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "hapi plugin to generate crud routes for all models in a folder",
   "main": "index.js",
   "scripts": {
