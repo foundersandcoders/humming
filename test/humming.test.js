@@ -3,119 +3,145 @@
 var test = require("tape");
 var hapi = require("hapi");
 var createAdapter = require("russian-doll");
+var request = require("request");
 
 var server = new hapi.Server();
 server.connection({ port: 7777 });
 
 server.register({
-  register: require(".."),
-  options: {
-    modelsPath: "../test/models",
-    adapter: createAdapter,
-    adapterOpts: {
-      index: "index",
-      host: "http://127.0.0.1",
-      port: 9200
-    }
-  }
+	register: require(".."),
+	options: {
+		modelsPath: "../test/models",
+		adapter: createAdapter,
+		adapterOpts: {
+			index: "index",
+			host: "http://127.0.0.1",
+			port: 9200
+		}
+	}
 }, function () {
 
-  var config = {
-    index: "index",
-    type: "members",
-    host: "http://127.0.0.1",
-    port: 9200
-  };
-  var db = createAdapter(config);
+	test("humming should create a create routes for members", function (t) {
 
-  test("humming should create create routes for each model", function (t) {
+		// create
+		server.inject({
+			method: "POST",
+			url: "/members",
+			payload: {
+				id: 1234,
+				name: "wil",
+				message: "yes"
+			}
+		}, function (res) {
 
-    //create
-    server.inject({
-      method: "POST",
-      url: "/members",
-      payload: {
-        id: 1234,
-        name: "wil",
-        message: "yes"
-      }
-    }, function (res) {
+			res.payload = JSON.parse(res.payload);
 
-      t.equals(res.statusCode, 200, "200 returned");
+			t.equals(res.statusCode, 200, "200 returned");
+			t.equals(res.payload.id, "1234", "created object returned");
+			t.end();
+		});
+	});
 
-      // check db
-      db.findOne({
-        id: 1234
-      }, function (e, r) {
+	test("humming should create a create routes for articles", function (t) {
 
-        t.ok(r.found, "member created");
-        t.end();
-      });
-    });
-  });
+		// create
+		server.inject({
+			method: "POST",
+			url: "/articles",
+			payload: {
+				id: 1234,
+				name: "wil",
+				message: "yes"
+			}
+		}, function (res) {
 
+			res.payload = JSON.parse(res.payload);
 
-  test("humming should create findOne routes for ecah model", function (t) {
+			t.equals(res.statusCode, 200, "200 returned");
+			t.equals(res.payload.id, "1234", "created object returned");
+			t.end();
+		});
+	});
 
-    //findOne
-    server.inject({
-      method: "GET",
-      url: "/members/1234"
-    }, function (res) {
+	test("humming should create a find routes for each model", function (t) {
 
-      t.equals(res.statusCode, 200, "200 returned");
-      t.end();
-    });
-  });
+		setTimeout(function (){
 
-  test("humming should create update routes for each model", function (t) {
+			server.inject({
+				method: "GET",
+				url: "/members?name=wil"
+			}, function (res) {
 
-    //update
-    server.inject({
-      method: "PUT",
-      url: "/members/1234",
-      payload: {
-        name: "bes"
-      }
-    }, function (res) {
+				res.payload = JSON.parse(res.payload);
 
-      t.equals(res.statusCode, 200, "200 returned");
+				t.equals(res.statusCode, 200, "200 returned");
+				t.equals(res.payload[0].id, "1234", "created object returned");
+				t.end();
+			});
+		}, 1000);
+	});
 
+	test("humming should create findOne routes for ecah model", function (t) {
 
-      // check db
-      db.findOne({
-        id: 1234
-      }, function (e, r) {
+		// findOne
+		server.inject({
+			method: "GET",
+			url: "/members/1234"
+		}, function (res) {
 
-        t.ok(r.found, "member created");
-        t.ok(r._source.name, "bes", "member update");
-        t.end();
-      });
-    });
-  });
+			res.payload = JSON.parse(res.payload);
 
-  test("humming should create delete routes for each model", function (t) {
+			t.equals(res.statusCode, 200, "200 returned");
+			t.equals(res.payload.id, "1234", "created object returned");
+			t.end();
+		});
+	});
 
+	test("humming should create update routes for each model", function (t) {
 
-    //delete
-    server.inject({
-      method: "DELETE",
-      url: "/members/1234"
-    }, function (res) {
+		// update
+		server.inject({
+			method: "PUT",
+			url: "/members/1234",
+			payload: {
+				name: "bes"
+			}
+		}, function (res) {
 
-      t.equals(res.statusCode, 200, "200 returned");
+			res.payload = JSON.parse(res.payload);
 
+			t.equals(res.statusCode, 200, "200 returned");
+			t.equals(res.payload.name, "bes", "updated object returned");
+			t.end();
 
-      // check db
-      db.findOne({
-        id: 1234
-      }, function (e, r) {
+		});
+	});
 
+	test("humming should create delete routes for each model", function (t) {
 
-        t.notOk(r, "member deleted");
-        t.ok(e, "error return");
-        t.end();
-      });
-    });
-  });
+		// delete
+		server.inject({
+			method: "DELETE",
+			url: "/members/1234"
+		}, function (res) {
+
+			res.payload = JSON.parse(res.payload);
+
+			t.equals(res.statusCode, 200, "200 returned");
+			t.equals(res.payload.id, "1234", "right item returned");
+			t.end();
+		});
+	});
+
+	test("NOT A TEST wipe db", function (t) {
+
+		var opts = {
+			method: "DELETE",
+			uri: "http://127.0.0.1:9200/index/articles/"
+		};
+		request(opts, function () {
+
+			t.end();
+		});
+	});
 });

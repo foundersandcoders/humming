@@ -1,6 +1,6 @@
 {
   "name": "humming",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "hapi plugin to generate crud routes for all models in a folder",
   "main": "index.js",
   "scripts": {
@@ -35,14 +35,15 @@
     "istanbul": "^0.3.13",
     "jshint": "^2.7.0",
     "pre-commit": "^1.0.6",
-    "russian-doll": "^1.0.2",
+    "request": "^2.55.0",
+    "russian-doll": "^1.0.5",
     "tape": "^4.0.0"
   },
   "dependencies": {
-    "asbestos": "^1.0.0",
+    "asbestos": "^1.0.1",
     "d-bap": "^1.0.0",
     "haybale": "^1.0.1",
-    "rhiz": "^1.0.0",
+    "rhiz": "^1.0.2",
     "torf": "^1.0.6"
   }
 }
